@@ -7,7 +7,7 @@ namespace washing_machine
         static void Main(string[] args)
         {
             WashingMachine washingMachine = new WashingMachine();
-            washingMachine.menu();
+            washingMachine.Run();
         }
     }
 }

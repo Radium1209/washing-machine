@@ -37,9 +37,9 @@ namespace washing_machine
     class WashingMachine
     {
         private Temperature _temperature;
-        private WashingMethod _washingmethod;
-        private WashingTime _washingtime;
-        private MenuType _menutype;
+        private WashingMethod _washingMethod;
+        private WashingTime _washingTime;
+        private MenuType _menuType;
         private int remainTime;
         private Thread timeThread;
         private Thread writeThread;
@@ -49,11 +49,11 @@ namespace washing_machine
         {
             Console.Out.WriteLine("Starting washing machine...");
             _temperature = Temperature.C30_50;
-            _washingmethod = WashingMethod.NORMAL;
-            _washingtime = WashingTime.T30;
-            _menutype = MenuType.MAIN;
+            _washingMethod = WashingMethod.NORMAL;
+            _washingTime = WashingTime.T30;
+            _menuType = MenuType.MAIN;
             remainTime = -1;
-            timeThread = new Thread(washing);
+            timeThread = new Thread(Washing);
             writeThread = new Thread(PrintMenu);
             readThread = new Thread(GetOption);
             hasChange = false;
@@ -88,9 +88,9 @@ namespace washing_machine
                     }
                     isStart = true;
                     Console.Out.WriteLine("Temperature: {0}", _temperature);
-                    Console.Out.WriteLine("Washing Method: {0}", _washingmethod);
-                    Console.Out.WriteLine("Washing Time: {0}", _washingtime);
-                    switch(_menutype)
+                    Console.Out.WriteLine("Washing Method: {0}", _washingMethod);
+                    Console.Out.WriteLine("Washing Time: {0}", _washingTime);
+                    switch(_menuType)
                     {
                         case MenuType.MAIN: MainMenu();
                             break;
@@ -152,7 +152,7 @@ namespace washing_machine
             while (true)
             {
                 var op = Console.ReadLine();
-                switch(_menutype)
+                switch(_menuType)
                 {
                     case MenuType.MAIN: SelectMenu(op);
                         break;
@@ -187,7 +187,7 @@ namespace washing_machine
             }
             else if (op == "1" || op == "2" || op == "3")
             {
-                _menutype = (MenuType)int.Parse(op);
+                _menuType = (MenuType)int.Parse(op);
             }
             hasChange = true;
         }
@@ -198,7 +198,7 @@ namespace washing_machine
             {
                 _temperature = (Temperature)int.Parse(op);
             }
-            _menutype = MenuType.MAIN;
+            _menuType = MenuType.MAIN;
             hasChange = true;
         }
 
@@ -206,9 +206,9 @@ namespace washing_machine
         {
             if (op == "0" || op == "1")
             {
-                _washingmethod = (WashingMethod)int.Parse(op);
+                _washingMethod = (WashingMethod)int.Parse(op);
             }
-            _menutype = MenuType.MAIN;
+            _menuType = MenuType.MAIN;
             hasChange = true;
         }
 
@@ -216,20 +216,20 @@ namespace washing_machine
         {
             if (op == "0" || op == "1" || op == "2" || op =="3")
             {
-                _washingtime = (WashingTime)int.Parse(op);
+                _washingTime = (WashingTime)int.Parse(op);
             }
-            _menutype = MenuType.MAIN;
+            _menuType = MenuType.MAIN;
             hasChange = true;
         }
 
         public void StartWashing()
         {
-            remainTime = ((int)_washingtime + 1) * 15;
+            remainTime = ((int)_washingTime + 1) * 15;
             hasChange = true; isPause = false;
             timeThread.Start();
         }
 
-        public void washing()
+        public void Washing()
         {
             while (remainTime > 0)
             {
